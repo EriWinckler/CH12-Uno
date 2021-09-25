@@ -20,4 +20,9 @@ public class Hand {
 
         return output.toString().trim();
     }
+
+    //method to drop cart to table
+    public void dropCard() {
+
+    }
 }

@@ -9,7 +9,7 @@ public class Card {
         this.suit = suit;
     }
 
-    public int getValue() {return value;}
+    public int getValue() { return value; }
 
     public String display() {
         String output = "";
