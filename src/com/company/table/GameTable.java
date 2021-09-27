@@ -1,15 +1,9 @@
-package com.company.actor;
+package com.company.table;
 
 import java.util.ArrayList;
 
-public class Table {
+public class GameTable {
      private ArrayList<String> players = new ArrayList<String>();
-    /*
-    table
-    hands
-    displaytable
-    remove player
-     */
 
      private ArrayList<String> table = new ArrayList<String>();
 
