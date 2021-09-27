@@ -47,9 +47,10 @@ public class Game {
         //Round counter
         round += 1;
 
-        //gameChecker
+        //TODO Create game checker
         for (int i = 0; i < players.size(); i++) {
             currentPlayer = players.get(i);
+
         }
     }
 }
