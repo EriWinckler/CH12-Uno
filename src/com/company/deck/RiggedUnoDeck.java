@@ -17,6 +17,6 @@ public class RiggedUnoDeck implements Deck {
                 "Enter number 1-13\n10 = Skip  11 = Draw Two\n12 = Reverse  13 = Wild Draw \n14 = Wild Draw + 4",
                 "invalid entry");
         int suit = Console.getInt(1, 4, "1. Red | 2. Yellow | 3. Green | 4. Blue", "Invalid entry");
-        return new Card(value, SUITS[suit - 1]);
+        return new PlayingCard(value, SUITS[suit - 1]);
     }
 }

@@ -7,8 +7,14 @@ import java.util.List;
 
 public class Hand {
     private List<Card> cards = new ArrayList<>();
+    private Actor holder;
 
-    public void addCard (Card card) {
+    public Hand(Actor holder) {
+        this.holder = holder;
+    }
+
+    //add card to card list
+    public void addCard(Card card) {
         cards.add(card);
     }
 
@@ -21,8 +27,17 @@ public class Hand {
         return output.toString().trim();
     }
 
-    //method to drop cart to table
-    public void dropCard() {
-        
+    public int size() { return cards.size(); }
+
+    public String getName() { return holder.getName(); }
+
+    public int getAction() {
+        return holder.getAction(this);
+    }
+
+    // removeCard method
+    public Card removeCard(int index) {
+        // take card at index out of hand and return to table.
+        return cards.remove(index);
     }
 }

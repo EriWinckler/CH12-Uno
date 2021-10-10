@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.deck.Deck;
 import com.company.deck.UnoDeck;
+import com.company.uno.Game;
 
 public class Main {
 
@@ -9,11 +10,9 @@ public class Main {
 
         Deck deck = new UnoDeck();
         deck.shuffle();
-        System.out.println(deck.draw().display());
-        System.out.println(deck.draw().display());
-        System.out.println(deck.draw().display());
-        System.out.println(deck.draw().display());
-        System.out.println(deck.draw().display());
-        System.out.println(deck.draw().display());
+
+        Game game = new Game();
+        game.startGame();
+
     }
 }

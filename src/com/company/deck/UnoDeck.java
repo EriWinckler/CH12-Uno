@@ -15,20 +15,20 @@ public class UnoDeck implements Deck {
         for (int i = 0; i <= 4; i++) {
             for (int val : WILD_CARDS){
                 String wild = " ";
-                cards.add(new Card(val, wild));
+                cards.add(new PlayingCard(val, wild));
             }
         }
 
         for (String suit : SUITS) {
             //add zero cards
             for (int val : ZERO_CARD) {
-                cards.add(new Card(val, suit));
+                cards.add(new PlayingCard(val, suit));
             }
 
             //add number cards twice
             for (int i = 0; i <= 2; i++) {
                 for (int val : VALUES) {
-                    cards.add(new Card(val, suit));
+                    cards.add(new PlayingCard(val, suit));
                 }
             }
         }
