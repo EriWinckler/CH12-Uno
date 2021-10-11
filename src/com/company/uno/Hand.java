@@ -21,7 +21,7 @@ public class Hand {
     public String displayHand() {
         StringBuilder output = new StringBuilder();
         for (Card card : cards) {
-            output.append(card.display()).append(" ");
+            output.append(card.display()).append(" | ");
         }
 
         return output.toString().trim();
@@ -35,9 +35,11 @@ public class Hand {
         return holder.getAction(this);
     }
 
+    public List getCards() { return cards; }
+
     // removeCard method
-    public Card removeCard(int index) {
+    public Card removeCard(int value) {
         // take card at index out of hand and return to table.
-        return cards.remove(index);
+        return cards.remove(value);
     }
 }

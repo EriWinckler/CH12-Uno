@@ -1,6 +1,7 @@
 package com.company.uno;
 
 import com.company.actor.Player;
+import com.company.deck.Card;
 import com.company.deck.Deck;
 import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    //TODO, ADD CARDS START GAME,
     private int numberPlayers;
 
     //initializing deck
@@ -47,7 +49,7 @@ public class Game {
     }
 
     private void createPlayer() {
-        String name = Console.getString("Please enter player " + playerCount + " name", true);
+        String name = Console.getString("Please enter player " + (playerCount + 1) + " name", true);
         Player player = new Player(name);
         hands.add(new Hand(player));
         playerCount++;
@@ -75,10 +77,23 @@ public class Game {
     private boolean cardDrop(Hand activeHand) {
         System.out.println("Select witch card to drop");
         activeHand.displayHand();
-        int choice = ac
-
-
-        return false;
+        int choice = Console.getInt(
+                0,
+                //TODO: ADD WAY TO CHOOSE WILD CARDS
+                12,
+                "Witch card are you dropping?",
+                "Invalid Input"
+        );
+        int position = -1;
+        position = activeHand.getCards().indexOf(choice);
+        if (position == -1) {
+            System.out.println("Invalid Input");
+            cardDrop(activeHand);
+        } else {
+            table.addCard((Card) activeHand.getCards().get(position));
+            activeHand.removeCard(position);
+        }
+        return true;
     };
 
 
