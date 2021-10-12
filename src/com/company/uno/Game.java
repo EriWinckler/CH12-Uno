@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    //TODO, ADD CARDS START GAME,
     private int numberPlayers;
 
     //initializing deck
@@ -61,6 +60,11 @@ public class Game {
 
         for (int i = 0; i < hands.size(); i++) {
             Hand activeHand = hands.get(i);
+            if(round == 1) {
+                for(int j = 0; j <= 6; j++) {
+                    activeHand.addCard(deck.draw());
+                }
+            }
             turn(activeHand);
         }
     }
@@ -75,24 +79,33 @@ public class Game {
     }
 
     private boolean cardDrop(Hand activeHand) {
-        System.out.println("Select witch card to drop");
+        System.out.println("Select witch card suit you want to drop:");
         activeHand.displayHand();
-        int choice = Console.getInt(
-                0,
+
+        int suitChoice = Console.getInt(
+                1,
                 //TODO: ADD WAY TO CHOOSE WILD CARDS
-                12,
-                "Witch card are you dropping?",
+                4,
+                "1 - Red | 2 - Yellow | 3 - Green | 4 - Blue | 5 - Wild",
                 "Invalid Input"
         );
-        int position = -1;
-        position = activeHand.getCards().indexOf(choice);
-        if (position == -1) {
-            System.out.println("Invalid Input");
-            cardDrop(activeHand);
-        } else {
-            table.addCard((Card) activeHand.getCards().get(position));
-            activeHand.removeCard(position);
-        }
+
+        int rankChoice = Console.getInt(
+                0,
+                12,
+                "Select the card value | Select 13 for Wild card",
+                "Invalid Choice"
+        );
+
+//        int position = -1;
+//        position = activeHand.getCards().indexOf(choice);
+//        if (position == -1) {
+//            System.out.println("Invalid Input");
+//            cardDrop(activeHand);
+//        } else {
+//            table.addCard((Card) activeHand.getCards().get(position));
+//            activeHand.removeCard(position);
+//        }
         return true;
     };
 

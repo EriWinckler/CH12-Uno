@@ -18,7 +18,7 @@ public class Player implements Actor {
 
     @Override
     public int getAction(Hand hand) {
-        System.out.println(hand.displayHand());
+        System.out.println(name + " Cards:" + "\n" + hand.displayHand());
         System.out.println("What would you like to do? \n1 - Drop a card\n2 - Buy a card");
         return Console.getInt(1, 3, "Choose action", "Invalid action");
     }
