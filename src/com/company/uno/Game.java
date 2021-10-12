@@ -93,9 +93,16 @@ public class Game {
         int rankChoice = Console.getInt(
                 0,
                 12,
-                "Select the card value | Select 13 for Wild card",
+                "Select the card value: " +
+                        "\nSelect 10 for Skip" +
+                        "\nSelect 11 for Draw Two" +
+                        "\nSelect 12 for Reverse" +
+                        "\nSelect 13 for Wild Draw" +
+                        "\nSelect 14 for Wild Draw 4",
                 "Invalid Choice"
         );
+        
+
 
 //        int position = -1;
 //        position = activeHand.getCards().indexOf(choice);
