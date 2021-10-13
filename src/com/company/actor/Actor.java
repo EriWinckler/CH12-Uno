@@ -1,6 +1,4 @@
-package com.company.uno;
-
-import com.company.utils.Console;
+package com.company.actor;
 
 public interface Actor {
     int DROP_A_CARD = 1;

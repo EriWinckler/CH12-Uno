@@ -1,7 +1,8 @@
 package com.company.uno;
 
+import com.company.actor.Actor;
+import com.company.actor.Hand;
 import com.company.actor.Player;
-import com.company.deck.Card;
 import com.company.deck.Deck;
 import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
@@ -22,6 +23,16 @@ public class Game {
 
     private int playerCount = 0;
     private boolean isActive = true;
+
+    //bolean for determining next color
+    private boolean isRed = false;
+    private boolean isGreen = false;
+    private boolean isYellow = false;
+    private boolean isBlue = false;
+
+    //variables to implement draw + 2 and wild + 4
+    private boolean addTwo = false;
+    private boolean addFour = false;
 
     //Round counter variable
     private int round = 0;
@@ -86,13 +97,14 @@ public class Game {
                 1,
                 //TODO: ADD WAY TO CHOOSE WILD CARDS
                 4,
-                "1 - Red | 2 - Yellow | 3 - Green | 4 - Blue | 5 - Wild",
+                "1 - Red | 2 - Yellow | 3 - Green | 4 - Blue | 5 - Wild or " +
+                        "Action",
                 "Invalid Input"
         );
 
         int rankChoice = Console.getInt(
                 0,
-                12,
+                14,
                 "Select the card value: " +
                         "\nSelect 10 for Skip" +
                         "\nSelect 11 for Draw Two" +
@@ -101,7 +113,33 @@ public class Game {
                         "\nSelect 14 for Wild Draw 4",
                 "Invalid Choice"
         );
-        
+
+        if(rankChoice == 10) {
+            //skip player
+        }
+
+        if(rankChoice == 11) {
+            addTwo = true;
+        }
+
+        if(rankChoice == 12) {
+            //reverse
+        }
+
+
+
+        if(rankChoice == 13) {
+            int choice = wildChoice();
+            switch (choice) {
+                case 1 -> color = "Red";
+                case 2 -> color = "Yellow";
+                case 3 -> color = "Green";
+                case 4 -> color = "Blue";
+            }
+
+        }
+
+
 
 
 //        int position = -1;
@@ -116,6 +154,19 @@ public class Game {
         return true;
     };
 
+    private int wildChoice() {
+        int choice =  Console.getInt(
+                1,
+                4,
+                "Please select which color would you like:\n" +
+                        "1 - Red\n" +
+                        "2 - Yellow\n" +
+                        "3 - Green\n" +
+                        "4 - Blue",
+                "Invalid Choice"
+        );
+        return choice;
+    }
 
     private boolean buyCard(Hand activeHand) {
         activeHand.addCard(deck.draw());

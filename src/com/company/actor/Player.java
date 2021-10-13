@@ -1,7 +1,5 @@
 package com.company.actor;
 
-import com.company.uno.Actor;
-import com.company.uno.Hand;
 import com.company.utils.Console;
 
 public class Player implements Actor {

@@ -1,5 +1,6 @@
-package com.company.uno;
+package com.company.actor;
 
+import com.company.actor.Actor;
 import com.company.deck.Card;
 
 import java.util.ArrayList;
