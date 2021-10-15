@@ -44,6 +44,7 @@ public class Game {
 
     public void startGame() {
         System.out.println("Welcome to Eri's Uno Game");
+        deck.shuffle();
         numberPlayers = Console.getInt(2,
                 10,
                 "How many players are playing?",
@@ -78,6 +79,10 @@ public class Game {
             }
             turn(activeHand);
         }
+
+        //add remaining cards to correct pile
+        table.setRemainingDeckCards((ArrayList) deck.drawAll());
+
     }
 
     private boolean turn(Hand activeHand) {
@@ -90,57 +95,38 @@ public class Game {
     }
 
     private boolean cardDrop(Hand activeHand) {
-        System.out.println("Select witch card suit you want to drop:");
-        activeHand.displayHand();
+        activeHand.displayHand(activeHand);
 
-        int suitChoice = Console.getInt(
-                1,
-                //TODO: ADD WAY TO CHOOSE WILD CARDS
-                4,
-                "1 - Red | 2 - Yellow | 3 - Green | 4 - Blue | 5 - Wild or " +
-                        "Action",
+        int choice = Console.getInt(
+                0,
+                activeHand.size(),
+                "Select the position of the card you want to play",
                 "Invalid Input"
         );
+        table.addCardCurrentPile(activeHand.removeCard(choice));
 
-        int rankChoice = Console.getInt(
-                0,
-                14,
-                "Select the card value: " +
-                        "\nSelect 10 for Skip" +
-                        "\nSelect 11 for Draw Two" +
-                        "\nSelect 12 for Reverse" +
-                        "\nSelect 13 for Wild Draw" +
-                        "\nSelect 14 for Wild Draw 4",
-                "Invalid Choice"
-        );
-
-        if(rankChoice == 10) {
-            //skip player
-        }
-
-        if(rankChoice == 11) {
-            addTwo = true;
-        }
-
-        if(rankChoice == 12) {
-            //reverse
-        }
-
-
-
-        if(rankChoice == 13) {
-            int choice = wildChoice();
-            switch (choice) {
-                case 1 -> color = "Red";
-                case 2 -> color = "Yellow";
-                case 3 -> color = "Green";
-                case 4 -> color = "Blue";
-            }
-
-        }
-
-
-
+//        if(rankChoice == 10) {
+//            //skip player
+//        }
+//
+//        if(rankChoice == 11) {
+//            addTwo = true;
+//        }
+//
+//        if(rankChoice == 12) {
+//            //reverse
+//        }
+//
+//        if(rankChoice == 13) {
+//            String rankColor = "";
+//            int choice = wildChoice();
+//            switch (choice) {
+//                case 1 -> rankColor = "Red";
+//                case 2 -> rankColor = "Yellow";
+//                case 3 -> rankColor = "Green";
+//                case 4 -> rankColor = "Blue";
+//            }
+//        }
 
 //        int position = -1;
 //        position = activeHand.getCards().indexOf(choice);

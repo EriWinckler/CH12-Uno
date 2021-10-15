@@ -4,7 +4,8 @@ package com.company.deck;
 import java.util.*;
 
 public class UnoDeck implements Deck {
-    private List<Card> cards = new ArrayList<>();;
+    private List<Card> cards = new ArrayList<>();
+
     final private int[] VALUES = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
     final private String[] CARD_COLOR = { "Red", "Yellow", "Green", "Blue" };
     final private int[] WILD_CARDS = { 13, 14 };
@@ -41,4 +42,8 @@ public class UnoDeck implements Deck {
     public Card draw() {
         return cards.remove(cards.size() - 1);
     }
+
+    public List drawAll() { return cards; }
+
+    public int size() { return cards.size(); }
 }

@@ -7,10 +7,6 @@ import com.company.uno.Game;
 public class Main {
 
     public static void main(String[] args) {
-
-        Deck deck = new UnoDeck();
-        deck.shuffle();
-
         Game game = new Game();
         game.startGame();
 

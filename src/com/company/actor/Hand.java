@@ -19,12 +19,13 @@ public class Hand {
         cards.add(card);
     }
 
-    public String displayHand() {
+    public String displayHand(Hand activeHand) {
         StringBuilder output = new StringBuilder();
-        for (Card card : cards) {
-            output.append(card.display()).append(" | ");
+        for (int i = 0; i < cards.size(); i++) {
+            output.append(cards.get(i).display()).append(" " + "(" + i + ")" +
+                    " |" +
+                    " ");
         }
-
         return output.toString().trim();
     }
 

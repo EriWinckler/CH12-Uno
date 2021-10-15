@@ -2,6 +2,8 @@ package com.company.deck;
 
 import com.company.utils.Console;
 
+import java.util.List;
+
 public class RiggedUnoDeck implements Deck {
     final private String[] SUITS = {"Red", "Yellow", "Green", "Blue"};
 
@@ -18,5 +20,10 @@ public class RiggedUnoDeck implements Deck {
                 "invalid entry");
         int suit = Console.getInt(1, 4, "1. Red | 2. Yellow | 3. Green | 4. Blue", "Invalid entry");
         return new PlayingCard(value, SUITS[suit - 1]);
+    }
+
+    @Override
+    public List drawAll() {
+        return null;
     }
 }
