@@ -22,11 +22,23 @@ public class GameTable {
         currentPile.add(card);
     }
 
-    public ArrayList<Card> getRemainingDeckCards() {
-         return remainingDeckCards;
+    public String getRemainingDeckCards() {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < remainingDeckCards.size(); i++) {
+            output.append(remainingDeckCards.get(i).display()).append(" | ");
+        }
+        return output.toString().trim();
+    }
+
+    public String getCurrentPileCard() {
+        StringBuilder result = new StringBuilder();
+        result.append(currentPile.get(currentPile.size() - 1).display());
+        return result.toString();
     }
 
     public void setRemainingDeckCards(ArrayList table) {
          remainingDeckCards = table;
     }
+
+    public int currentPileSize() { return currentPile.size(); }
 }

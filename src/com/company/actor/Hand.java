@@ -22,9 +22,7 @@ public class Hand {
     public String displayHand(Hand activeHand) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < cards.size(); i++) {
-            output.append(cards.get(i).display()).append(" " + "(" + i + ")" +
-                    " |" +
-                    " ");
+            output.append(cards.get(i).display()).append(" " + "(" + i + ")" + " |" + " ");
         }
         return output.toString().trim();
     }
@@ -35,6 +33,10 @@ public class Hand {
 
     public int getAction() {
         return holder.getAction(this);
+    }
+
+    public Card getPlayedCard(Hand activeHand, int choice) {
+        return activeHand.cards.get(choice);
     }
 
     public List getCards() { return cards; }

@@ -3,6 +3,7 @@ package com.company.uno;
 import com.company.actor.Actor;
 import com.company.actor.Hand;
 import com.company.actor.Player;
+import com.company.deck.Card;
 import com.company.deck.Deck;
 import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
@@ -17,20 +18,24 @@ public class Game {
     //initializing deck
     private Deck deck = new UnoDeck();
 
-    //Initializing players array
-    //private ArrayList<Player> players = new ArrayList<>();
+    //Initializing hand array
     private List<Hand> hands = new ArrayList<>();
 
+    //Initializing table
+    GameTable table = new GameTable();
+
     private int playerCount = 0;
+
+    //Active game checker
     private boolean isActive = true;
 
-    //bolean for determining next color
-    private boolean isRed = false;
-    private boolean isGreen = false;
-    private boolean isYellow = false;
-    private boolean isBlue = false;
+    //Uno checker
+    private boolean uno = false;
 
-    //variables to implement draw + 2 and wild + 4
+    //Skip card setter
+    private boolean shouldSkip = false;
+
+    //booleans to implement draw + 2 and wild + 4
     private boolean addTwo = false;
     private boolean addFour = false;
 
@@ -40,7 +45,7 @@ public class Game {
     //Creating variable to keep track of the current player
     private Hand currentPlayer;
 
-    GameTable table = new GameTable();
+
 
     public void startGame() {
         System.out.println("Welcome to Eri's Uno Game");
@@ -67,25 +72,33 @@ public class Game {
     }
 
     private void round() {
-        //Round counter
-        round += 1;
+        //add remaining cards to correct pile
+        table.setRemainingDeckCards((ArrayList) deck.drawAll());
 
         for (int i = 0; i < hands.size(); i++) {
+            //Round counter
+            round += 1;
+
             Hand activeHand = hands.get(i);
-            if(round == 1) {
+            if(activeHand.size() == 0 && !uno) {
                 for(int j = 0; j <= 6; j++) {
                     activeHand.addCard(deck.draw());
                 }
             }
             turn(activeHand);
         }
-
-        //add remaining cards to correct pile
-        table.setRemainingDeckCards((ArrayList) deck.drawAll());
-
     }
 
     private boolean turn(Hand activeHand) {
+        //Skip card checker
+        skip();
+
+        //determine if should display top card on pile
+        displayTopCard();
+
+        //Draw Two checker
+        drawTwoChecker(activeHand);
+
         int choice = activeHand.getAction();
         return switch (choice) {
             case Actor.DROP_A_CARD -> cardDrop(activeHand);
@@ -103,60 +116,54 @@ public class Game {
                 "Select the position of the card you want to play",
                 "Invalid Input"
         );
+
+        actionCardChecker(activeHand.getPlayedCard(activeHand, choice));
+        //TODO
+//        wildCardChecker();
         table.addCardCurrentPile(activeHand.removeCard(choice));
 
-//        if(rankChoice == 10) {
-//            //skip player
-//        }
-//
-//        if(rankChoice == 11) {
-//            addTwo = true;
-//        }
-//
-//        if(rankChoice == 12) {
-//            //reverse
-//        }
-//
-//        if(rankChoice == 13) {
-//            String rankColor = "";
-//            int choice = wildChoice();
-//            switch (choice) {
-//                case 1 -> rankColor = "Red";
-//                case 2 -> rankColor = "Yellow";
-//                case 3 -> rankColor = "Green";
-//                case 4 -> rankColor = "Blue";
-//            }
-//        }
-
-//        int position = -1;
-//        position = activeHand.getCards().indexOf(choice);
-//        if (position == -1) {
-//            System.out.println("Invalid Input");
-//            cardDrop(activeHand);
-//        } else {
-//            table.addCard((Card) activeHand.getCards().get(position));
-//            activeHand.removeCard(position);
-//        }
         return true;
     };
 
-    private int wildChoice() {
-        int choice =  Console.getInt(
-                1,
-                4,
-                "Please select which color would you like:\n" +
-                        "1 - Red\n" +
-                        "2 - Yellow\n" +
-                        "3 - Green\n" +
-                        "4 - Blue",
-                "Invalid Choice"
-        );
-        return choice;
+    private void actionCardChecker(Card playedCard) {
+        //Skip
+        if(playedCard.getRank() == 10) {
+            shouldSkip = true;
+        }
+
+        //Draw Two
+        if(playedCard.getRank() == 11) {
+            addTwo = true;
+        }
+
+        //Reverse
+        if(playedCard.getRank() == 12) {}
     }
 
     private boolean buyCard(Hand activeHand) {
         activeHand.addCard(deck.draw());
         return true;
+    }
+
+    private void drawTwoChecker(Hand activeHand) {
+        if(addTwo) {
+            buyCard(activeHand);
+            buyCard(activeHand);
+            addTwo = false;
+        }
+    }
+
+    private void skip() {
+        if(shouldSkip) {
+            shouldSkip = false;
+            round();
+        }
+    }
+
+    public void displayTopCard() {
+        if(table.currentPileSize() > 0) {
+            System.out.println("Card on top of pile = " + table.getCurrentPileCard());
+        }
     }
 
     private void removePlayer(String name) {
