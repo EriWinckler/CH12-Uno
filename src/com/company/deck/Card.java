@@ -13,6 +13,10 @@ public abstract class Card {
 
     public String getSuit() { return suit; }
 
+    public void setSuit(String color) {
+        suit = color;
+    }
+
     public abstract String display();
 
 

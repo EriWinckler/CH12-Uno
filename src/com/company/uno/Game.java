@@ -117,7 +117,7 @@ public class Game {
                 "Invalid Input"
         );
 
-        actionCardChecker(activeHand.getPlayedCard(activeHand, choice));
+        specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
         //TODO
 //        wildCardChecker();
         table.addCardCurrentPile(activeHand.removeCard(choice));
@@ -125,7 +125,7 @@ public class Game {
         return true;
     };
 
-    private void actionCardChecker(Card playedCard) {
+    private void specialCardChecker(Card playedCard) {
         //Skip
         if(playedCard.getRank() == 10) {
             shouldSkip = true;
@@ -138,6 +138,42 @@ public class Game {
 
         //Reverse
         if(playedCard.getRank() == 12) {}
+
+        //WildDraw
+        if(playedCard.getRank() == 13) {
+            wildChooser(playedCard);
+        }
+
+        //WildDraw +4
+        if(playedCard.getRank() == 13) {
+            addFour = true;
+            wildChooser(playedCard);
+        }
+    }
+
+    private Card wildChooser(Card playedCard) {
+        int choice = Console.getInt(
+                1,
+                4,
+                "Select the color you would like:\n" +
+                        "1 - Red\n" +
+                        "2 - Yellow\n" +
+                        "3 - Green\n" +
+                        "4 - Blue",
+                "Invalid Input"
+        );
+
+        String color = "";
+
+        switch(choice) {
+            case 1 -> color = "Red";
+            case 2 -> color = "Yellow";
+            case 3 -> color = "Green";
+            case 4 -> color = "Blue";
+        }
+        Card wildCard;
+        //TODO implement wildcard
+        return wildCard = deck.setColor(playedCard, color);
     }
 
     private boolean buyCard(Hand activeHand) {

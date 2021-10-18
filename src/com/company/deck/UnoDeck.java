@@ -1,6 +1,8 @@
 package com.company.deck;
 
 
+import com.company.actor.Hand;
+
 import java.util.*;
 
 public class UnoDeck implements Deck {
@@ -46,4 +48,9 @@ public class UnoDeck implements Deck {
     public List drawAll() { return cards; }
 
     public int size() { return cards.size(); }
+
+    public Card setColor(Card playedCard, String color) {
+        playedCard.setSuit(color);
+        return playedCard;
+    }
 }
