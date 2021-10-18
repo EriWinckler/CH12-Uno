@@ -29,6 +29,7 @@ public class Hand {
 
     public int size() { return cards.size(); }
 
+
     public String getName() { return holder.getName(); }
 
     public int getAction() {

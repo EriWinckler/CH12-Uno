@@ -26,4 +26,7 @@ public class RiggedUnoDeck implements Deck {
     public List drawAll() {
         return null;
     }
+
+    @Override
+    public Card setColor(Card playedCard, String color) { return null; }
 }

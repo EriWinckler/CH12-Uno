@@ -9,6 +9,7 @@ import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
 import com.company.utils.Console;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +100,9 @@ public class Game {
         //Draw Two checker
         drawTwoChecker(activeHand);
 
+        //Draw four checker
+        drawFourChecker(activeHand);
+
         int choice = activeHand.getAction();
         return switch (choice) {
             case Actor.DROP_A_CARD -> cardDrop(activeHand);
@@ -117,15 +121,15 @@ public class Game {
                 "Invalid Input"
         );
 
+        //Special cards
         specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
-        //TODO
-//        wildCardChecker();
+
         table.addCardCurrentPile(activeHand.removeCard(choice));
 
         return true;
     };
 
-    private void specialCardChecker(Card playedCard) {
+    private Card specialCardChecker(Card playedCard) {
         //Skip
         if(playedCard.getRank() == 10) {
             shouldSkip = true;
@@ -137,18 +141,27 @@ public class Game {
         }
 
         //Reverse
-        if(playedCard.getRank() == 12) {}
+        if(playedCard.getRank() == 12) {
+            ArrayList<Hand> reverse = new ArrayList<>();
+            for(int i = 0; i < hands.size()/2; i++){
+                Hand temp = reverse.get(i);
+                reverse.set(i, reverse.get(reverse.size() - i - 1));
+                reverse.set(reverse.size() - i - 1, temp);
+            }
+        }
 
         //WildDraw
         if(playedCard.getRank() == 13) {
-            wildChooser(playedCard);
+            playedCard = wildChooser(playedCard);
         }
 
         //WildDraw +4
-        if(playedCard.getRank() == 13) {
+        if(playedCard.getRank() == 14) {
             addFour = true;
-            wildChooser(playedCard);
+            playedCard = wildChooser(playedCard);
         }
+
+        return playedCard;
     }
 
     private Card wildChooser(Card playedCard) {
@@ -172,7 +185,6 @@ public class Game {
             case 4 -> color = "Blue";
         }
         Card wildCard;
-        //TODO implement wildcard
         return wildCard = deck.setColor(playedCard, color);
     }
 
@@ -186,6 +198,15 @@ public class Game {
             buyCard(activeHand);
             buyCard(activeHand);
             addTwo = false;
+        }
+    }
+
+    private void drawFourChecker(Hand activeHand) {
+        if(addFour) {
+            for(int i = 0; i <= 3; i++) {
+                buyCard(activeHand);
+            }
+            addFour = false;
         }
     }
 

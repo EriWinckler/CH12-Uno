@@ -23,11 +23,11 @@ public class PlayingCard extends Card {
             }
             case 13 -> {
                 output = "Wild Draw";
-                return output;
+                return output + " " + suit;
             }
             case 14 -> {
                 output = "Wild Draw + 4";
-                return output;
+                return output + " " + suit;
             }
             default -> {
                 output = rank == 10 ? Integer.toString(rank) :
