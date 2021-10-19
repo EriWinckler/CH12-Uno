@@ -36,6 +36,11 @@ public class GameTable {
         return result.toString();
     }
 
+//    public String getCurrentCardRank() {
+//         StringBuilder result = new StringBuilder();
+//         result.append(currentPile.get(currentPile.size() - 1));
+//    }
+
     public void setRemainingDeckCards(ArrayList table) {
          remainingDeckCards = table;
     }

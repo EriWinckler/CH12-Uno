@@ -36,6 +36,8 @@ public class Game {
     //Skip card setter
     private boolean shouldSkip = false;
 
+    private boolean isReverse = false;
+
     //booleans to implement draw + 2 and wild + 4
     private boolean addTwo = false;
     private boolean addFour = false;
@@ -76,7 +78,8 @@ public class Game {
         //add remaining cards to correct pile
         table.setRemainingDeckCards((ArrayList) deck.drawAll());
 
-        for (int i = 0; i < hands.size(); i++) {
+
+        for (int i = 0; i < hands.size();) {
             //Round counter
             round += 1;
 
@@ -87,21 +90,25 @@ public class Game {
                 }
             }
             turn(activeHand);
+
+            //reverse card operator
+            if(isReverse) {
+                if(i == 0) {
+                    i = hands.size() - 1;
+                }
+                i--;
+            } else {
+                i++;
+            }
         }
     }
 
     private boolean turn(Hand activeHand) {
-        //Skip card checker
-        skip();
-
         //determine if should display top card on pile
         displayTopCard();
 
-        //Draw Two checker
-        drawTwoChecker(activeHand);
-
-        //Draw four checker
-        drawFourChecker(activeHand);
+        //special cards checker
+        specialCardActivator(activeHand);
 
         int choice = activeHand.getAction();
         return switch (choice) {
@@ -109,6 +116,17 @@ public class Game {
             case Actor.BUY_A_CARD -> buyCard(activeHand);
             default -> false;
         };
+    }
+
+    private void specialCardActivator(Hand activeHand) {
+        //Skip card checker
+        skip();
+
+        //Draw Two checker
+        drawTwoChecker(activeHand);
+
+        //Draw four checker
+        drawFourChecker(activeHand);
     }
 
     private boolean cardDrop(Hand activeHand) {
@@ -121,6 +139,7 @@ public class Game {
                 "Invalid Input"
         );
 
+//        cardDropChecker(activeHand.removeCard(choice));
         //Special cards
         specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
 
@@ -128,6 +147,11 @@ public class Game {
 
         return true;
     };
+
+//    private void cardDropChecker(Card card) {
+//        if(card.getSuit() == table.getCurrentPileCard())
+//        table.addCardCurrentPile(card);
+//    }
 
     private Card specialCardChecker(Card playedCard) {
         //Skip
@@ -142,12 +166,7 @@ public class Game {
 
         //Reverse
         if(playedCard.getRank() == 12) {
-            ArrayList<Hand> reverse = new ArrayList<>();
-            for(int i = 0; i < hands.size()/2; i++){
-                Hand temp = reverse.get(i);
-                reverse.set(i, reverse.get(reverse.size() - i - 1));
-                reverse.set(reverse.size() - i - 1, temp);
-            }
+            isReverse = !isReverse;
         }
 
         //WildDraw
@@ -183,6 +202,7 @@ public class Game {
             case 2 -> color = "Yellow";
             case 3 -> color = "Green";
             case 4 -> color = "Blue";
+            default -> System.out.println("Invalid input");
         }
         Card wildCard;
         return wildCard = deck.setColor(playedCard, color);
