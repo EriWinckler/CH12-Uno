@@ -9,7 +9,6 @@ import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
 import com.company.utils.Console;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,13 +74,12 @@ public class Game {
     }
 
     private void round() {
-        //add remaining cards to correct pile
-        table.setRemainingDeckCards((ArrayList) deck.drawAll());
-
-
         for (int i = 0; i < hands.size();) {
             //Round counter
             round += 1;
+
+            table.addCardDiscardPile(deck.draw());
+            firstDrawChecker();
 
             Hand activeHand = hands.get(i);
             if(activeHand.size() == 0 && !uno) {
@@ -94,17 +92,27 @@ public class Game {
             //reverse card operator
             if(isReverse) {
                 if(i == 0) {
-                    i = hands.size() - 1;
+                    i = hands.size();
                 }
                 i--;
             } else {
                 i++;
             }
         }
+        //add remaining cards to correct pile
+        table.setRemainingDeckCards((ArrayList) deck.drawAll());
+    }
+
+    private void firstDrawChecker() {
+        if(table.getDiscardPileCard().getRank() >= 10) {
+            table.addCard(table.getDiscardPileCard());
+            deck.shuffle();
+            table.addCardDiscardPile(deck.draw());
+        }
     }
 
     private boolean turn(Hand activeHand) {
-        //determine if should display top card on pile
+        //display top card on active pile
         displayTopCard();
 
         //special cards checker
@@ -139,19 +147,25 @@ public class Game {
                 "Invalid Input"
         );
 
-//        cardDropChecker(activeHand.removeCard(choice));
+        cardDropChecker(activeHand.removeCard(choice), activeHand);
         //Special cards
         specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
 
-        table.addCardCurrentPile(activeHand.removeCard(choice));
+//        table.addCardCurrentPile(activeHand.removeCard(choice));
 
         return true;
     };
 
-//    private void cardDropChecker(Card card) {
-//        if(card.getSuit() == table.getCurrentPileCard())
-//        table.addCardCurrentPile(card);
-//    }
+    private void cardDropChecker(Card card, Hand activeHand) {
+        Card currentCard = table.getDiscardPileCard();
+        if(card.getSuit() == currentCard.getSuit() || card.getRank() == currentCard.getRank()) {
+            table.addCardDiscardPile(card);
+            round();
+        }
+        System.out.println("Invalid card selected");
+        cardDrop(activeHand);
+
+    }
 
     private Card specialCardChecker(Card playedCard) {
         //Skip
@@ -166,6 +180,10 @@ public class Game {
 
         //Reverse
         if(playedCard.getRank() == 12) {
+            //TODO fix for 2 players
+            if (hands.size() == 2) {
+                skip();
+            }
             isReverse = !isReverse;
         }
 
@@ -218,6 +236,7 @@ public class Game {
             buyCard(activeHand);
             buyCard(activeHand);
             addTwo = false;
+            shouldSkip = true;
         }
     }
 
@@ -227,6 +246,7 @@ public class Game {
                 buyCard(activeHand);
             }
             addFour = false;
+            shouldSkip = true;
         }
     }
 
@@ -239,7 +259,7 @@ public class Game {
 
     public void displayTopCard() {
         if(table.currentPileSize() > 0) {
-            System.out.println("Card on top of pile = " + table.getCurrentPileCard());
+            System.out.println("Card on top of pile = " + table.getCurrentDiscardPileCard());
         }
     }
 

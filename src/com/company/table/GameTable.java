@@ -8,42 +8,33 @@ public class GameTable {
 
      private ArrayList<Card> remainingDeckCards = new ArrayList<Card>();
 
-     private ArrayList<Card> currentPile = new ArrayList<Card>();
+     private ArrayList<Card> discardPile = new ArrayList<Card>();
 
      public ArrayList displayTable() {
-         return currentPile;
+         return discardPile;
      }
 
      public void addCard(Card card) {
          remainingDeckCards.add(card);
      }
 
-     public void addCardCurrentPile(Card card) {
-        currentPile.add(card);
+     public void addCardDiscardPile(Card card) {
+        discardPile.add(card);
     }
 
-    public String getRemainingDeckCards() {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < remainingDeckCards.size(); i++) {
-            output.append(remainingDeckCards.get(i).display()).append(" | ");
-        }
-        return output.toString().trim();
+    public Card getDiscardPileCard() {
+         Card card = discardPile.get(discardPile.size() - 1);
+         return card;
     }
-
-    public String getCurrentPileCard() {
-        StringBuilder result = new StringBuilder();
-        result.append(currentPile.get(currentPile.size() - 1).display());
-        return result.toString();
-    }
-
-//    public String getCurrentCardRank() {
-//         StringBuilder result = new StringBuilder();
-//         result.append(currentPile.get(currentPile.size() - 1));
-//    }
 
     public void setRemainingDeckCards(ArrayList table) {
          remainingDeckCards = table;
     }
+    public String getCurrentDiscardPileCard() {
+        StringBuilder result = new StringBuilder();
+        result.append(discardPile.get(discardPile.size() - 1).display());
+        return result.toString();
+    }
 
-    public int currentPileSize() { return currentPile.size(); }
+    public int currentPileSize() { return discardPile.size(); }
 }
