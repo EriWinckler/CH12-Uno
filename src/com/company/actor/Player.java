@@ -18,7 +18,7 @@ public class Player implements Actor {
     public int getAction(Hand hand) {
         System.out.println(name + " Cards:" + "\n" + hand.displayHand(hand));
         System.out.println("What would you like to do? \n1 - Drop a card\n2 - Buy a card");
-        return Console.getInt(1, 3, "Choose action", "Invalid action");
+        return Console.getInt(1, 2, "Choose action", "Invalid action");
     }
 
 
