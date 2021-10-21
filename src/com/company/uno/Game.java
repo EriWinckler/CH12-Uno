@@ -61,6 +61,8 @@ public class Game {
             createPlayer();
         }
 
+        firstDraw();
+
         while(isActive) {
             round();
         }
@@ -71,6 +73,15 @@ public class Game {
         Player player = new Player(name);
         hands.add(new Hand(player));
         playerCount++;
+    }
+
+    public void firstDraw() {
+        table.addCardDiscardPile(deck.draw());
+        if(table.getDiscardPileCard().getRank() >= 10) {
+            table.addCard(table.getDiscardPileCard());
+            deck.shuffle();
+            firstDraw();
+        }
     }
 
     private void round() {
