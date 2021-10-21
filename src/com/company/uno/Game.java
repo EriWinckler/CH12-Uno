@@ -78,6 +78,8 @@ public class Game {
             //Round counter
             round += 1;
 
+            //TODO METHOD TO REFILL DECK WITH DISCARDPILE
+
             table.addCardDiscardPile(deck.draw());
             firstDrawChecker();
 
@@ -148,20 +150,29 @@ public class Game {
         );
 
         cardDropChecker(activeHand.removeCard(choice), activeHand);
+
         //Special cards
         specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
-
-//        table.addCardCurrentPile(activeHand.removeCard(choice));
 
         return true;
     };
 
     private void cardDropChecker(Card card, Hand activeHand) {
         Card currentCard = table.getDiscardPileCard();
+        if(card.getRank() >= 10) {
+            if(card.getSuit() == currentCard.getSuit()) {
+                table.addCardDiscardPile(card);
+                round();
+            }
+            System.out.println("Invalid card selected");
+            cardDrop(activeHand);
+        }
+
         if(card.getSuit() == currentCard.getSuit() || card.getRank() == currentCard.getRank()) {
             table.addCardDiscardPile(card);
             round();
         }
+
         System.out.println("Invalid card selected");
         cardDrop(activeHand);
 
@@ -223,6 +234,7 @@ public class Game {
             default -> System.out.println("Invalid input");
         }
         Card wildCard;
+
         return wildCard = deck.setColor(playedCard, color);
     }
 
