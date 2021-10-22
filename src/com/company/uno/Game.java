@@ -89,22 +89,36 @@ public class Game {
             //Round counter
             round += 1;
 
+            i = skip(i);
+//            if(shouldSkip) {
+//                if(i >= hands.size()) {
+//                    i = i - 1;
+//                }
+//                if(isReverse) {
+//                    if(i <= 0) {
+//                        i = hands.size();
+//                    }
+//                    i--;
+//                } else{
+//                    i++;
+//                }
+//                shouldSkip = false;
+//            }
             //TODO METHOD TO REFILL DECK WITH DISCARDPILE
 
-            table.addCardDiscardPile(deck.draw());
-            firstDrawChecker();
-
-            Hand activeHand = hands.get(i);
-            if(activeHand.size() == 0 && !uno) {
-                for(int j = 0; j <= 6; j++) {
-                    activeHand.addCard(deck.draw());
+//            if(!shouldSkip) {
+                Hand activeHand = hands.get(i);
+                if (activeHand.size() == 0 && !uno) {
+                    for (int j = 0; j <= 6; j++) {
+                        activeHand.addCard(deck.draw());
+                    }
                 }
-            }
-            turn(activeHand);
-
+                turn(activeHand);
+//            }
+//            shouldSkip = false;
             //reverse card operator
             if(isReverse) {
-                if(i == 0) {
+                if(i <= 0) {
                     i = hands.size();
                 }
                 i--;
@@ -114,14 +128,6 @@ public class Game {
         }
         //add remaining cards to correct pile
         table.setRemainingDeckCards((ArrayList) deck.drawAll());
-    }
-
-    private void firstDrawChecker() {
-        if(table.getDiscardPileCard().getRank() >= 10) {
-            table.addCard(table.getDiscardPileCard());
-            deck.shuffle();
-            table.addCardDiscardPile(deck.draw());
-        }
     }
 
     private boolean turn(Hand activeHand) {
@@ -141,7 +147,7 @@ public class Game {
 
     private void specialCardActivator(Hand activeHand) {
         //Skip card checker
-        skip();
+//        skip();
 
         //Draw Two checker
         drawTwoChecker(activeHand);
@@ -160,33 +166,29 @@ public class Game {
                 "Invalid Input"
         );
 
-        cardDropChecker(activeHand.removeCard(choice), activeHand);
+        cardDropChecker(activeHand.getPlayedCard(activeHand, (choice)),
+                activeHand);
 
         //Special cards
-        specialCardChecker(activeHand.getPlayedCard(activeHand, choice));
-
+        specialCardChecker(activeHand.getPlayedCard(activeHand, (choice)));
+        activeHand.removeCard(choice);
         return true;
     };
 
     private void cardDropChecker(Card card, Hand activeHand) {
         Card currentCard = table.getDiscardPileCard();
-        if(card.getRank() >= 10) {
-            if(card.getSuit() == currentCard.getSuit()) {
+        if(card.getRank() >= 13) {
                 table.addCardDiscardPile(card);
-                round();
-            }
-            System.out.println("Invalid card selected");
-            cardDrop(activeHand);
+                return;
         }
 
         if(card.getSuit() == currentCard.getSuit() || card.getRank() == currentCard.getRank()) {
             table.addCardDiscardPile(card);
-            round();
+            return;
         }
 
         System.out.println("Invalid card selected");
         cardDrop(activeHand);
-
     }
 
     private Card specialCardChecker(Card playedCard) {
@@ -204,12 +206,13 @@ public class Game {
         if(playedCard.getRank() == 12) {
             //TODO fix for 2 players
             if (hands.size() == 2) {
-                skip();
+//                skip();
+            } else {
+                isReverse = !isReverse;
             }
-            isReverse = !isReverse;
         }
 
-        //WildDraw
+        //Wild
         if(playedCard.getRank() == 13) {
             playedCard = wildChooser(playedCard);
         }
@@ -273,11 +276,23 @@ public class Game {
         }
     }
 
-    private void skip() {
+    private int skip(int i) {
         if(shouldSkip) {
             shouldSkip = false;
-            round();
+            i++;
+            return i++;
         }
+
+        if(shouldSkip && isReverse) {
+            shouldSkip = false;
+            if(i <= 0) {
+                i = hands.size() - 1;
+                return i;
+            }
+            i--;
+            return i--;
+        }
+        return i;
     }
 
     public void displayTopCard() {

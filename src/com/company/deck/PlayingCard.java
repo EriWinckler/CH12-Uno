@@ -20,7 +20,7 @@ public class PlayingCard extends Card {
 
             case 12 -> output = "Reverse";
 
-            case 13 -> output = "Wild Draw";
+            case 13 -> output = "Wild";
 
             case 14 -> output = "Wild Draw + 4";
 

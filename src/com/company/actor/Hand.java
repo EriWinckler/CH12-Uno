@@ -22,13 +22,13 @@ public class Hand {
     public String displayHand(Hand activeHand) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < cards.size(); i++) {
-            output.append(cards.get(i).display()).append(" " + "(" + i + ")" + " |" + " ");
+            output.append(cards.get(i).display()).append(" " + "(" + i +
+                    ")" + " |" + " ");
         }
         return output.toString().trim();
     }
 
     public int size() { return cards.size(); }
-
 
     public String getName() { return holder.getName(); }
 
