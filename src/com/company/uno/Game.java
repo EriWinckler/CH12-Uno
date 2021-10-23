@@ -143,7 +143,7 @@ public class Game {
         specialCardActivator(activeHand);
 
         int choice = activeHand.getAction();
-        
+
         return switch (choice) {
             case Actor.DROP_A_CARD -> cardDrop(activeHand);
             case Actor.BUY_A_CARD -> buyCard(activeHand);
