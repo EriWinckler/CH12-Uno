@@ -10,6 +10,13 @@ public class Hand {
     private List<Card> cards = new ArrayList<>();
     private Actor holder;
 
+    //Uno checker
+    private boolean uno = false;
+
+    public void setUno(boolean uno) {
+        this.uno = uno;
+    }
+
     public Hand(Actor holder) {
         this.holder = holder;
     }

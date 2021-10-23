@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GameTable {
 
-     private ArrayList<Card> remainingDeckCards = new ArrayList<Card>();
+    private ArrayList<Card> remainingDeckCards = new ArrayList<Card>();
 
      private ArrayList<Card> discardPile = new ArrayList<Card>();
 
@@ -27,9 +27,14 @@ public class GameTable {
          return card;
     }
 
-    public void setRemainingDeckCards(ArrayList table) {
-         remainingDeckCards = table;
+    public void setRemainingDeckCards(ArrayList<Card> remainingDeckCards) {
+        this.remainingDeckCards = remainingDeckCards;
     }
+
+//    public void setRemainingDeckCards(ArrayList table) {
+//         remainingDeckCards = table;
+//    }
+
     public String getCurrentDiscardPileCard() {
         StringBuilder result = new StringBuilder();
         result.append(discardPile.get(discardPile.size() - 1).display());

@@ -22,15 +22,12 @@ public class Game {
     private List<Hand> hands = new ArrayList<>();
 
     //Initializing table
-    GameTable table = new GameTable();
+    public GameTable table = new GameTable();
 
     private int playerCount = 0;
 
     //Active game checker
     private boolean isActive = true;
-
-    //Uno checker
-    private boolean uno = false;
 
     //Skip card setter
     private boolean shouldSkip = false;
@@ -82,6 +79,15 @@ public class Game {
             deck.shuffle();
             firstDraw();
         }
+
+        //hand first draw
+        for (int i = 0; i < hands.size(); i++) {
+            Hand activeHand = hands.get(i);
+            for (int j = 0; j <= 7; j++) {
+                activeHand.addCard(deck.draw());
+            }
+
+        }
     }
 
     private void round() {
@@ -89,7 +95,8 @@ public class Game {
             //Round counter
             round += 1;
 
-            i = skip(i);
+//            i = skip(i);
+
 //            if(shouldSkip) {
 //                if(i >= hands.size()) {
 //                    i = i - 1;
@@ -104,14 +111,13 @@ public class Game {
 //                }
 //                shouldSkip = false;
 //            }
-            //TODO METHOD TO REFILL DECK WITH DISCARDPILE
+
 
 
 //            if(!shouldSkip) {
                 Hand activeHand = hands.get(i);
 
             //add cards to hands on first round
-            firstHandDraw(activeHand);
                 turn(activeHand);
 //            }
 //            shouldSkip = false;
@@ -129,14 +135,6 @@ public class Game {
         table.setRemainingDeckCards((ArrayList) deck.drawAll());
     }
 
-    private void firstHandDraw(Hand activeHand) {
-        if (activeHand.size() == 0 && !uno) {
-            for (int j = 0; j <= 6; j++) {
-                activeHand.addCard(deck.draw());
-            }
-        }
-    }
-
     private boolean turn(Hand activeHand) {
         //display top card on active pile
         displayTopCard();
@@ -145,6 +143,7 @@ public class Game {
         specialCardActivator(activeHand);
 
         int choice = activeHand.getAction();
+        
         return switch (choice) {
             case Actor.DROP_A_CARD -> cardDrop(activeHand);
             case Actor.BUY_A_CARD -> buyCard(activeHand);
@@ -167,11 +166,17 @@ public class Game {
         activeHand.displayHand(activeHand);
 
         int choice = Console.getInt(
-                0,
-                activeHand.size(),
-                "Select the position of the card you want to play",
+                -1,
+                activeHand.size() - 1,
+                "Select the position of the card you want to play, select (-1) if you don't have a playable card.",
                 "Invalid Input"
         );
+
+        //checker for miss type choice
+        if(choice == -1) {
+            turn(activeHand);
+            return false;
+        }
 
         cardDropChecker(activeHand.getPlayedCard(activeHand, (choice)),
                 activeHand);
@@ -179,6 +184,10 @@ public class Game {
         //Special cards
         specialCardChecker(activeHand.getPlayedCard(activeHand, (choice)));
         activeHand.removeCard(choice);
+
+        //Victory checkers
+        unoChecker(activeHand);
+        winnerChecker(activeHand);
         return true;
     };
 
@@ -257,6 +266,23 @@ public class Game {
         Card wildCard;
 
         return wildCard = deck.setColor(playedCard, color);
+    }
+
+    private void unoChecker(Hand activeHand) {
+        if(activeHand.size() == 1) {
+            System.out.println("\n\n\n" + activeHand.getName() + " UNO! \n\n\n");
+            activeHand.setUno(true);
+        }
+        if(activeHand.size() > 1) {
+            activeHand.setUno(false);
+        }
+    }
+
+    private void winnerChecker(Hand activeHand) {
+        if(activeHand.size() == 0) {
+            System.out.println("\n\n\n" + activeHand.getName() + " WON!\n\n\n");
+            isActive = false;
+        }
     }
 
     private boolean buyCard(Hand activeHand) {
