@@ -106,13 +106,12 @@ public class Game {
 //            }
             //TODO METHOD TO REFILL DECK WITH DISCARDPILE
 
+
 //            if(!shouldSkip) {
                 Hand activeHand = hands.get(i);
-                if (activeHand.size() == 0 && !uno) {
-                    for (int j = 0; j <= 6; j++) {
-                        activeHand.addCard(deck.draw());
-                    }
-                }
+
+            //add cards to hands on first round
+            firstHandDraw(activeHand);
                 turn(activeHand);
 //            }
 //            shouldSkip = false;
@@ -128,6 +127,14 @@ public class Game {
         }
         //add remaining cards to correct pile
         table.setRemainingDeckCards((ArrayList) deck.drawAll());
+    }
+
+    private void firstHandDraw(Hand activeHand) {
+        if (activeHand.size() == 0 && !uno) {
+            for (int j = 0; j <= 6; j++) {
+                activeHand.addCard(deck.draw());
+            }
+        }
     }
 
     private boolean turn(Hand activeHand) {
