@@ -5,11 +5,14 @@ import com.company.actor.Hand;
 import com.company.actor.Player;
 import com.company.deck.Card;
 import com.company.deck.Deck;
+import com.company.deck.RiggedUnoDeck;
 import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
 import com.company.utils.Console;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Game {
@@ -19,7 +22,7 @@ public class Game {
     private Deck deck = new UnoDeck();
 
     //Initializing hand array
-    private List<Hand> hands = new ArrayList<>();
+    private ArrayList<Hand> hands = new ArrayList<>();
 
     //Initializing table
     public GameTable table = new GameTable();
@@ -43,8 +46,6 @@ public class Game {
 
     //Creating variable to keep track of the current player
     private Hand currentPlayer;
-
-
 
     public void startGame() {
         System.out.println("Welcome to Eri's Uno Game");
@@ -95,7 +96,7 @@ public class Game {
             //Round counter
             round += 1;
 
-//            i = skip(i);
+            i = skip(i);
 
 //            if(shouldSkip) {
 //                if(i >= hands.size()) {
@@ -112,15 +113,11 @@ public class Game {
 //                shouldSkip = false;
 //            }
 
-
-
-//            if(!shouldSkip) {
-                Hand activeHand = hands.get(i);
+            Hand activeHand = hands.get(i);
 
             //add cards to hands on first round
-                turn(activeHand);
-//            }
-//            shouldSkip = false;
+            turn(activeHand);
+
             //reverse card operator
             if(isReverse) {
                 if(i <= 0) {
@@ -310,20 +307,27 @@ public class Game {
     }
 
     private int skip(int i) {
-        if(shouldSkip) {
-            shouldSkip = false;
-            i++;
-            return i++;
-        }
+
+
 
         if(shouldSkip && isReverse) {
             shouldSkip = false;
-            if(i <= 0) {
-                i = hands.size() - 1;
+            if(i >= hands.size()) {
+                i = hands.size();
                 return i;
             }
             i--;
             return i--;
+        }
+
+        if(shouldSkip) {
+            shouldSkip = false;
+            if(i >= hands.size() - 1) {
+                i = 0;
+                return i++;
+            }
+            i++;
+            return i++;
         }
         return i;
     }
