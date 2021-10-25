@@ -66,7 +66,7 @@ public class Game {
         playerCount++;
     }
 
-    public void firstDraw() {
+    private void firstDraw() {
         table.addCardDiscardPile(deck.draw());
         if(table.getDiscardPileCard().getRank() >= 10) {
             table.addCard(table.getDiscardPileCard());
@@ -270,9 +270,6 @@ public class Game {
             shouldSkip = true;
         }
     }
-
-    //arrumar nome
-    //arrumar carta skip especial
 
     private void drawFourChecker(Hand activeHand) {
         if(addFour) {
