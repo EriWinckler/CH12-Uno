@@ -31,25 +31,22 @@ public class Game {
     //Skip card setter
     private boolean shouldSkip = false;
 
+    //Reverse card setter
     private boolean isReverse = false;
 
     //booleans to implement draw + 2 and wild + 4
     private boolean addTwo = false;
     private boolean addFour = false;
 
-    //Round counter variable
-    private int round = 0;
-
-    //Creating variable to keep track of the current player
-    private Hand currentPlayer;
-
     public void startGame() {
         System.out.println("Welcome to Eri's Uno Game");
         deck.shuffle();
-        numberPlayers = Console.getInt(2,
+        numberPlayers = Console.getInt(
+                2,
                 10,
                 "How many players are playing?",
-                "Invalid number of players, try again");
+                "Invalid number of players, try again"
+        );
 
         while(numberPlayers > hands.size()) {
             createPlayer();
@@ -89,8 +86,6 @@ public class Game {
 
     private void round() {
         for (int i = 0; i < hands.size();) {
-            //Round counter
-            round += 1;
 
             //skip card checker
             i = skip(i);
@@ -190,6 +185,7 @@ public class Game {
         //Draw Two
         if(playedCard.getRank() == 11) {
             addTwo = true;
+            shouldSkip = true;
         }
 
         //Reverse
@@ -274,6 +270,9 @@ public class Game {
             shouldSkip = true;
         }
     }
+
+    //arrumar nome
+    //arrumar carta skip especial
 
     private void drawFourChecker(Hand activeHand) {
         if(addFour) {
