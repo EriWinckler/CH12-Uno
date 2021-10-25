@@ -5,15 +5,11 @@ import com.company.actor.Hand;
 import com.company.actor.Player;
 import com.company.deck.Card;
 import com.company.deck.Deck;
-import com.company.deck.RiggedUnoDeck;
 import com.company.deck.UnoDeck;
 import com.company.table.GameTable;
 import com.company.utils.Console;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Game {
     private int numberPlayers;
@@ -96,22 +92,8 @@ public class Game {
             //Round counter
             round += 1;
 
+            //skip card checker
             i = skip(i);
-
-//            if(shouldSkip) {
-//                if(i >= hands.size()) {
-//                    i = i - 1;
-//                }
-//                if(isReverse) {
-//                    if(i <= 0) {
-//                        i = hands.size();
-//                    }
-//                    i--;
-//                } else{
-//                    i++;
-//                }
-//                shouldSkip = false;
-//            }
 
             Hand activeHand = hands.get(i);
 
@@ -128,8 +110,6 @@ public class Game {
                 i++;
             }
         }
-        //add remaining cards to correct pile
-        table.setRemainingDeckCards((ArrayList) deck.drawAll());
     }
 
     private boolean turn(Hand activeHand) {
@@ -149,9 +129,6 @@ public class Game {
     }
 
     private void specialCardActivator(Hand activeHand) {
-        //Skip card checker
-//        skip();
-
         //Draw Two checker
         drawTwoChecker(activeHand);
 
@@ -219,7 +196,7 @@ public class Game {
         if(playedCard.getRank() == 12) {
             //TODO fix for 2 players
             if (hands.size() == 2) {
-//                skip();
+                shouldSkip = true;
             } else {
                 isReverse = !isReverse;
             }
@@ -227,12 +204,14 @@ public class Game {
 
         //Wild
         if(playedCard.getRank() == 13) {
+            shouldSkip = true;
             playedCard = wildChooser(playedCard);
         }
 
         //WildDraw +4
         if(playedCard.getRank() == 14) {
             addFour = true;
+            shouldSkip = true;
             playedCard = wildChooser(playedCard);
         }
 
@@ -307,9 +286,6 @@ public class Game {
     }
 
     private int skip(int i) {
-
-
-
         if(shouldSkip && isReverse) {
             shouldSkip = false;
             if(i >= hands.size()) {

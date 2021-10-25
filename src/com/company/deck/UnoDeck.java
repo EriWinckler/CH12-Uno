@@ -6,6 +6,8 @@ import com.company.actor.Hand;
 import java.util.*;
 
 public class UnoDeck implements Deck {
+
+
     private List<Card> cards = new ArrayList<>();
 
     final private int[] VALUES = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
@@ -37,6 +39,8 @@ public class UnoDeck implements Deck {
         }
     }
 
+    public List<Card> getCards() { return cards; }
+
     public void shuffle() {
         Collections.shuffle(cards);
     }
@@ -45,7 +49,6 @@ public class UnoDeck implements Deck {
         return cards.remove(cards.size() - 1);
     }
 
-    public List drawAll() { return cards; }
 
     public int size() { return cards.size(); }
 

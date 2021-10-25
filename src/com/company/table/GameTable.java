@@ -31,10 +31,6 @@ public class GameTable {
         this.remainingDeckCards = remainingDeckCards;
     }
 
-//    public void setRemainingDeckCards(ArrayList table) {
-//         remainingDeckCards = table;
-//    }
-
     public String getCurrentDiscardPileCard() {
         StringBuilder result = new StringBuilder();
         result.append(discardPile.get(discardPile.size() - 1).display());
