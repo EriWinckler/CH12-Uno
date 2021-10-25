@@ -7,4 +7,5 @@ public interface Deck {
     void shuffle();
     Card draw();
     Card setColor(Card playedCard, String color);
+    int size();
 }

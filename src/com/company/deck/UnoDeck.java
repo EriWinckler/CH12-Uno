@@ -17,7 +17,7 @@ public class UnoDeck implements Deck {
 
     public UnoDeck() {
         //add 4 wild cards
-        for (int i = 0; i <= 4; i++) {
+        for (int i = 0; i <= 3; i++) {
             for (int val : WILD_CARDS) {
                 String wild = " ";
                 cards.add(new PlayingCard(val, wild));
@@ -31,7 +31,7 @@ public class UnoDeck implements Deck {
             }
 
             //add number cards twice
-            for (int i = 0; i <= 2; i++) {
+            for (int i = 0; i <= 1; i++) {
                 for (int val : VALUES) {
                     cards.add(new PlayingCard(val, suit));
                 }

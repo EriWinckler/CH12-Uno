@@ -80,13 +80,11 @@ public class Game {
             for (int j = 0; j <= 7; j++) {
                 activeHand.addCard(deck.draw());
             }
-
         }
     }
 
     private void round() {
         for (int i = 0; i < hands.size();) {
-
             //skip card checker
             i = skip(i);
 
