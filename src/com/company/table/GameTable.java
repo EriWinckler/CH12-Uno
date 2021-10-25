@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public class GameTable {
 
+    public ArrayList<Card> getRemainingDeckCards() {
+        return remainingDeckCards;
+    }
+
     private ArrayList<Card> remainingDeckCards = new ArrayList<Card>();
 
      private ArrayList<Card> discardPile = new ArrayList<Card>();

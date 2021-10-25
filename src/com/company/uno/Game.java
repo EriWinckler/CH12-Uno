@@ -52,6 +52,7 @@ public class Game {
             createPlayer();
         }
 
+        //add first cards to hands and draws first card to table
         firstDraw();
 
         while(isActive) {
@@ -84,13 +85,15 @@ public class Game {
     }
 
     private void round() {
+        //deck checker
+        deckChecker();
+
         for (int i = 0; i < hands.size();) {
             //skip card checker
             i = skip(i);
 
             Hand activeHand = hands.get(i);
 
-            //add cards to hands on first round
             turn(activeHand);
 
             //reverse card operator
@@ -104,6 +107,13 @@ public class Game {
             }
         }
     }
+
+    private void deckChecker() {
+        if(deck.size() == 0) {
+
+        }
+    }
+
 
     private boolean turn(Hand activeHand) {
         //display top card on active pile
@@ -188,7 +198,6 @@ public class Game {
 
         //Reverse
         if(playedCard.getRank() == 12) {
-            //TODO fix for 2 players
             if (hands.size() == 2) {
                 shouldSkip = true;
             } else {
@@ -198,7 +207,6 @@ public class Game {
 
         //Wild
         if(playedCard.getRank() == 13) {
-            shouldSkip = true;
             playedCard = wildChooser(playedCard);
         }
 
@@ -243,6 +251,7 @@ public class Game {
             System.out.println("\n\n\n" + activeHand.getName() + " UNO! \n\n\n");
             activeHand.setUno(true);
         }
+
         if(activeHand.size() > 1) {
             activeHand.setUno(false);
         }
